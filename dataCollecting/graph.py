@@ -9,11 +9,11 @@ comp = 'MSFT'
 
 try:
 	print("getting Data for ", comp, "...")
-	data, meta_data = ts.get_intraday(symbol=comp,interval='60min', outputsize='full')
+	data, meta_data = ts.get_intraday(symbol=comp,interval='1min', outputsize='full')
 	print("Data retrieved for ", comp)
 	try:
-		data.plot()
-		plt.title('Intraday Times Series for the '+comp+' stock (60 min)')
+		data['4. close'].plot()
+		plt.title('Intraday Times Series for the MSFT stock (1 min)')
 		plt.show()
 	except:
 		print('data plotting error')
