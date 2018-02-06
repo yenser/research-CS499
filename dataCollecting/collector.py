@@ -17,9 +17,5 @@ try:
 		plt.show()
 	except:
 		print('data plotting error')
-except:
-	print("Servers are busy... try again in a bit")
-
-
-
-
+except Exception as e: 
+    print("!!ERROR!! ", e)
