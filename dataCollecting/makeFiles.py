@@ -15,22 +15,22 @@ def parse_args():
 	parser.add_argument('company', type=str, nargs=1, help='Company Acronym')
 	return parser.parse_args()
 
-def requestMonth(comp):
-	print("getting Data for ", comp, "...")
+def requestMonthly(comp):
+	print("Getting Monthly Data For ", comp, "...")
 	url='https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol='+comp+'&outputsize=full&apikey='+apikey+'&datatype=csv'
 	res = session.get(url)
 	return res.text
 
-def requestWeek(comp):
-	print("getting Data for ", comp, "...")
+def requestWeekly(comp):
+	print("Getting Weekly Data For ", comp, "...")
 	url='https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol='+comp+'&outputsize=full&apikey='+apikey+'&datatype=csv'
 	res = session.get(url)
 	return res.text
 
 def requestDaily(comp):
 	#not working yet
-	print("getting Data for ", comp, "...")
-	url='https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol='+comp+'&outputsize=full&apikey='+apikey+'&datatype=csv'
+	print("Getting Daily Data For ", comp, "...")
+	url='https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+comp+'&apikey='+apikey+'&datatype=csv&outputsize=full'
 	res = session.get(url)
 	return res.text
 
@@ -82,12 +82,16 @@ if __name__ == '__main__':
 		manageDirectory(comp)
 
 		# get monthly
-		data = requestMonth(comp)
+		data = requestMonthly(comp)
 		writeFile(comp, '.csv', data, 'MONTHLY')
 		
 		# get weekly
-		data = requestWeek(comp)
+		data = requestWeekly(comp)
 		writeFile(comp, '.csv', data, 'WEEKLY')
+
+		# get daily
+		data = requestDaily(comp)
+		writeFile(comp, '.csv', data, 'DAILY')
 
 		
 	except Exception as e: 
