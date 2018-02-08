@@ -3,18 +3,10 @@ import argparse
 from pandas.io.json import json_normalize
 from requests import Session
 import sys
+import libs.bcolors as c
 
 session = Session()
 apikey = 'ZR07VE377CJYBGLJ'
-
-HEADER = '\033[37m'
-OKBLUE = '\033[94m'
-OKGREEN = '\033[92m'
-WARNING = '\033[93m'
-FAIL = '\033[91m'
-ENDC = '\033[0m'
-BOLD = '\033[1m'
-UNDERLINE = '\033[4m'
 
 
 def writeFile(comp, ext, data, length):
@@ -29,7 +21,7 @@ def writeFile(comp, ext, data, length):
 		return False
 
 def requestMonthly(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('MONTHLY: ', end='')
 	sys.stdout.flush()
 	url='https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol='+comp+'&outputsize=full&apikey='+apikey+'&datatype=csv'
@@ -38,14 +30,14 @@ def requestMonthly(comp):
 
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'MONTHLY')):
-			print(OKGREEN, "SUCCESS")
+			print(c.OKGREEN, "SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.FAIL,'ERROR')
 
 def requestWeekly(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('WEEKLY: ', end='')
 	sys.stdout.flush()
 	url='https://www.alphavantage.co/query?function=TIME_SERIES_WEEKLY&symbol='+comp+'&outputsize=full&apikey='+apikey+'&datatype=csv'
@@ -54,14 +46,14 @@ def requestWeekly(comp):
 
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'WEEKLY')):
-			print(OKGREEN, "SUCCESS")
+			print(c.OKGREEN, "SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.FAIL,'ERROR')
 
 def requestDaily(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('DAILY: ', end='')
 	sys.stdout.flush()
 	url='https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+comp+'&apikey='+apikey+'&datatype=csv&outputsize=full'
@@ -70,15 +62,15 @@ def requestDaily(comp):
 
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'DAILY')):
-			print(OKGREEN,"SUCCESS")
+			print(c.OKGREEN,"SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.FAIL,'ERROR')
 
 
 def requestHourly(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('HOURLY: ', end='')
 	sys.stdout.flush()
 	url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='+comp+'&interval=60min&apikey='+apikey+'&datatype=csv&outputsize=compact'
@@ -86,14 +78,14 @@ def requestHourly(comp):
 	data = res.text
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'HOURLY')):
-			print(OKGREEN,"SUCCESS")
+			print(c.OKGREEN,"SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.FAIL,'ERROR')
 
 def requestHalfHourly(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('HALF_HOURLY: ', end='')
 	sys.stdout.flush()
 	url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='+comp+'&interval=30min&apikey='+apikey+'&datatype=csv&outputsize=compact'
@@ -101,14 +93,14 @@ def requestHalfHourly(comp):
 	data = res.text
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'HALF_HOURLY')):
-			print(OKGREEN,"SUCCESS")
+			print(c.OKGREEN,"SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.FAIL,'ERROR')
 
 def requestQuarterHourly(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('QUARTER_HOURLY: ', end='')
 	sys.stdout.flush()
 	url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='+comp+'&interval=15min&apikey='+apikey+'&datatype=csv&outputsize=compact'
@@ -116,14 +108,14 @@ def requestQuarterHourly(comp):
 	data = res.text
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'QUARTER_HOURLY')):
-			print(OKGREEN,"SUCCESS")
+			print(c.OKGREEN,"SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.FAIL,'ERROR')
 
 def requestMinutely(comp):
-	print(HEADER,"----------------------------")
+	print(c.HEADER,"----------------------------")
 	print('MINUTELY: ', end='')
 	sys.stdout.flush()
 	url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol='+comp+'&interval=1min&apikey='+apikey+'&datatype=csv&outputsize=compact'
@@ -131,11 +123,11 @@ def requestMinutely(comp):
 	data = res.text
 	if "Invalid API call" not in data: 
 		if(writeFile(comp, '.csv', data, 'MINUTELY')):
-			print(OKGREEN,"SUCCESS")
+			print(c.c.OKGREEN,"SUCCESS")
 		else:
-			print(FAIL,'ERROR')
+			print(c.c.FAIL,'ERROR')
 	else:
-		print(FAIL,'ERROR')
+		print(c.c.FAIL,'ERROR')
 
 
 
@@ -156,3 +148,22 @@ def manageFile(fname):
 		os.remove(fname)
 
 			# print('\nRemoving file ran into an issue: ', e)
+
+def getAll(comp):
+	try:
+		print('\n',c.HEADER,comp)
+		manageTypeDirectory()
+		manageDirectory(comp)
+		requestMonthly(comp)
+		requestWeekly(comp)
+		requestDaily(comp)
+		# api.requestHourly(comp)
+		# api.requestHalfHourly(comp)
+		# api.requestQuarterHourly(comp)
+		# api.requestMinutely(comp)
+		print(c.HEADER,"----------------------------")
+		
+	except Exception as e: 
+		print(c.FAIL,"ERROR: ", e)
+
+
