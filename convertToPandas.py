@@ -16,6 +16,7 @@ if __name__  == '__main__':
 	# data['close'].plot()
 	# plt.title('Intraday Times Series for the MSFT stock (daily)')
 	# plt.show()
+	
 
 
 
