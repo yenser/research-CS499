@@ -95,6 +95,20 @@ def readCSV(fileName):
 	return data
 
 
+
+def create_test_sets(arr):
+	feature = []
+
+	for _ in arr:
+		if _ >= 0:
+			feature += [_, [1,0]]
+		else:
+			feature += [_, [0,1]]
+
+	return feature
+
+
+
 #run code
 
 AAPL = readCSV('data/delta/AAPL/DAILY_AAPL_DELTA.csv') # read delta AAPL
@@ -108,6 +122,10 @@ print('MSFT: ', len(MSFT), ' data points')
 print('GOOGL: ', len(GOOGL), ' data points')
 print('AMZN: ', len(AMZN), ' data points')
 print('ADBE: ', len(ADBE), ' data points')
+
+val = create_test_sets(AAPL)
+print(val)
+
 
 
 # train_neural_network(x)
