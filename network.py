@@ -2,7 +2,8 @@
 
 # imports
 import tensorflow as tf
-from numpy import genfromtxt
+import numpy as np
+from libs import data
 
 '''
 input > weight > hidden layer 1 (activation function) > 
@@ -26,16 +27,16 @@ n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
-n_classes = 10
+n_classes = 5 # how many outputs (5 companies that were in)
 batch_size = 100 # adjust this for batchsize
 
 # height x width
-x  = tf.placeholder('float', [None, 4]) # input data
+x  = tf.placeholder('float', [None, 5]) # input data
 y = tf.placeholder('float')
 
 def neural_network_model(data):
 
-	hidden_1_layer = {'weights': tf.Variable(tf.random_normal([784, n_nodes_hl1])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl1]))}
+	hidden_1_layer = {'weights': tf.Variable(tf.random_normal([5, n_nodes_hl1])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl1]))}
 
 	hidden_2_layer = {'weights': tf.Variable(tf.random_normal([n_nodes_hl1, n_nodes_hl2])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl2]))}
 
@@ -90,32 +91,37 @@ def train_neural_network(x, hm_epochs=10):
 
 
 
-def readCSV(fileName):
-	data = genfromtxt(fileName, delimiter=',')
-	return data
 
-
-
-def create_test_sets(arr):
-	feature = []
+def create_test_sets(arr, test_size=100):
+	features = []
 
 	for _ in arr:
 		if _ >= 0:
-			feature += [_, [1,0]]
+			features += [[_, [1,0]]]
 		else:
-			feature += [_, [0,1]]
-
-	return feature
+			features += [[_, [0,1]]]
 
 
+	testing_size = int(test_size*len(features))
+
+	features = np.array(features)
+	train_x = list(features[:,0][:-testing_size])
+	train_y = list(features[:,1][:-testing_size])
+
+	test_x = list(features[:,0][-testing_size:])
+	test_y = list(features[:,1][-testing_size:])
+
+	return train_x, train_y, test_x, test_y
 
 #run code
 
-AAPL = readCSV('data/delta/AAPL/DAILY_AAPL_DELTA.csv') # read delta AAPL
-MSFT = readCSV('data/delta/MSFT/DAILY_MSFT_DELTA.csv') # read delta MSFT
-GOOGL = readCSV('data/delta/GOOGL/DAILY_GOOGL_DELTA.csv') # read delta GOOGL
-AMZN = readCSV('data/delta/AMZN/DAILY_AMZN_DELTA.csv') # read delta AMZN
-ADBE = readCSV('data/delta/ADBE/DAILY_ADBE_DELTA.csv') # read delta ADBE
+AAPL = data.get_file_data('AAPL')
+MSFT = data.get_file_data('MSFT')
+GOOGL = data.get_file_data('GOOGL')
+AMZN = data.get_file_data('AMZN')
+ADBE = data.get_file_data('ADBE')
+
+AAPL, MSFT, GOOGL, AMZN, ADBE = data.size_test_results(AAPL, MSFT, GOOGL, AMZN, ADBE)
 
 print('AAPL: ', len(AAPL), ' data points')
 print('MSFT: ', len(MSFT), ' data points')
@@ -123,8 +129,12 @@ print('GOOGL: ', len(GOOGL), ' data points')
 print('AMZN: ', len(AMZN), ' data points')
 print('ADBE: ', len(ADBE), ' data points')
 
-val = create_test_sets(AAPL)
-print(val)
+print(AAPL[len(AAPL)-1])
+AAPL = data.flip_array(AAPL)
+print(AAPL[0])
+
+val1, val2, val3, val4 = data.create_test_sets(AAPL)
+print(val[0], test_size=1000)
 
 
 
