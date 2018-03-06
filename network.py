@@ -3,7 +3,8 @@
 # imports
 import tensorflow as tf
 import numpy as np
-from libs import data
+from create_test_data import get_data_and_create_test_set
+
 
 '''
 input > weight > hidden layer 1 (activation function) > 
@@ -23,20 +24,25 @@ feed forward + backprop = epoch
 
 # 10 classes, 0-9
 
+train_x, train_y, test_x, test_y = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
+
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
-n_classes = 5 # how many outputs (5 companies that were in)
+n_classes = 2 # how many outputs (5 companies that were in)
 batch_size = 100 # adjust this for batchsize
 
 # height x width
-x  = tf.placeholder('float', [None, 5]) # input data
+
+input_size = len(train_x[0])
+print("input Size: ", input_size)
+x  = tf.placeholder('float', [None, input_size]) # input data
 y = tf.placeholder('float')
 
 def neural_network_model(data):
 
-	hidden_1_layer = {'weights': tf.Variable(tf.random_normal([5, n_nodes_hl1])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl1]))}
+	hidden_1_layer = {'weights': tf.Variable(tf.random_normal([input_size, n_nodes_hl1])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl1]))}
 
 	hidden_2_layer = {'weights': tf.Variable(tf.random_normal([n_nodes_hl1, n_nodes_hl2])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl2]))}
 
@@ -73,9 +79,28 @@ def train_neural_network(x, hm_epochs=10):
 
 		for epoch in range(hm_epochs):
 			epoch_loss = 0
-			for _ in range():
-				# epoch_x, epoch_y = 				train data here
-				print('Epoch', epoch, 'completed out of', hm_epochs, 'loss', epoch_loss)
+
+			i = 0
+			while i < len(train_x):
+				start = i
+				end = i + batch_size
+
+				batch_x = np.array(train_x[start:end])
+				batch_y = np.array(train_y[start:end])
+
+				_, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y})
+				epoch_loss += c
+				i+=batch_size
+				
+			print('Epoch', epoch+1, 'completed out of', hm_epochs, 'loss', epoch_loss)
+
+		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
+		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
+		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
+
+
+
+
 
 		# for epoch in range(hm_epochs):
 		# 	epoch_loss = 0
@@ -90,52 +115,4 @@ def train_neural_network(x, hm_epochs=10):
 		# print('Accuracy:', accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
 
 
-
-
-def create_test_sets(arr, test_size=100):
-	features = []
-
-	for _ in arr:
-		if _ >= 0:
-			features += [[_, [1,0]]]
-		else:
-			features += [[_, [0,1]]]
-
-
-	testing_size = int(test_size*len(features))
-
-	features = np.array(features)
-	train_x = list(features[:,0][:-testing_size])
-	train_y = list(features[:,1][:-testing_size])
-
-	test_x = list(features[:,0][-testing_size:])
-	test_y = list(features[:,1][-testing_size:])
-
-	return train_x, train_y, test_x, test_y
-
-#run code
-
-AAPL = data.get_file_data('AAPL')
-MSFT = data.get_file_data('MSFT')
-GOOGL = data.get_file_data('GOOGL')
-AMZN = data.get_file_data('AMZN')
-ADBE = data.get_file_data('ADBE')
-
-AAPL, MSFT, GOOGL, AMZN, ADBE = data.size_test_results(AAPL, MSFT, GOOGL, AMZN, ADBE)
-
-print('AAPL: ', len(AAPL), ' data points')
-print('MSFT: ', len(MSFT), ' data points')
-print('GOOGL: ', len(GOOGL), ' data points')
-print('AMZN: ', len(AMZN), ' data points')
-print('ADBE: ', len(ADBE), ' data points')
-
-print(AAPL[len(AAPL)-1])
-AAPL = data.flip_array(AAPL)
-print(AAPL[0])
-
-val1, val2, val3, val4 = data.create_test_sets(AAPL)
-print(val[0], test_size=1000)
-
-
-
-# train_neural_network(x)
+train_neural_network(x)
