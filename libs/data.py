@@ -17,7 +17,6 @@ def size_test_results(arr1, arr2, arr3, arr4, arr5):
 	if(len(arr5) < smallest):
 		smallest = len(arr5)
 
-	print("smallest array: ", smallest)
 	return arr1[0:smallest], arr2[0:smallest], arr3[0:smallest:], arr4[0:smallest], arr5[0:smallest]
 
 

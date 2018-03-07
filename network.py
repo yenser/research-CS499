@@ -24,19 +24,23 @@ feed forward + backprop = epoch
 
 # 10 classes, 0-9
 
-train_x, train_y, test_x, test_y = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
 
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
-n_classes = 2 # how many outputs (5 companies that were in)
+n_classes = 2 # how many outputs
 batch_size = 3392 # adjust this for batchsize
+
+
+
+train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
 
 # height x width
 
 input_size = len(train_x[0])
-print("input Size: ", input_size)
+print("Input Size: ", input_size)
+print('Batch Size: ', batch_size)
 x  = tf.placeholder('float', [None, input_size]) # input data
 y = tf.placeholder('float')
 
@@ -66,6 +70,9 @@ def neural_network_model(data):
 	return output
 
 
+saver = tf.train.Saver()
+# saver.recover('/models/4in_model.ckpt')
+
 def train_neural_network(x, hm_epochs=10):
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
@@ -93,7 +100,9 @@ def train_neural_network(x, hm_epochs=10):
 				i+=batch_size
 				# print(tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1)))
 
+			saver.save(sess, 'models/4in_model.ckpt')
 			print('Epoch', epoch+1, 'completed out of', hm_epochs, 'loss', epoch_loss)
+
 
 		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))

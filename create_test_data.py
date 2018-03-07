@@ -77,7 +77,10 @@ def get_data_and_create_test_set(str1, str2, str3, str4, str5):
 	ADBE = data.flip_array(ADBE)
 	# finish pulling data
 
-	return create_test_sets(AAPL, MSFT, GOOGL, AMZN, ADBE)
+	batch_size = len(AAPL)
+	train_x, train_y, test_x, test_y = create_test_sets(AAPL, MSFT, GOOGL, AMZN, ADBE)
+
+	return train_x, train_y, test_x, test_y, batch_size
 
 #run code
 
