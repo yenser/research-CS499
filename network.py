@@ -31,7 +31,7 @@ n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
 n_classes = 2 # how many outputs (5 companies that were in)
-batch_size = 100 # adjust this for batchsize
+batch_size = 3392 # adjust this for batchsize
 
 # height x width
 
@@ -91,7 +91,8 @@ def train_neural_network(x, hm_epochs=10):
 				_, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y})
 				epoch_loss += c
 				i+=batch_size
-				
+				# print(tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1)))
+
 			print('Epoch', epoch+1, 'completed out of', hm_epochs, 'loss', epoch_loss)
 
 		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
@@ -113,6 +114,5 @@ def train_neural_network(x, hm_epochs=10):
 		# correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 		# accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
 		# print('Accuracy:', accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
-
 
 train_neural_network(x)

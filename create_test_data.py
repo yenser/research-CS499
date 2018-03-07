@@ -4,20 +4,38 @@ import numpy as np
 from libs import data
 import pickle
 
+# def sample_handling(arr1, arr2, arr3, arr4, arr5):
+# 	featureset = []
+# 	for i in range(len(arr5)):
+
+# 		val1 = val2 = val3 = val4 = 0
+
+# 		if arr1[i] >= 0:
+# 			val1 = 1
+# 		if arr2[i] >= 0:
+# 			val2 = 1
+# 		if arr3[i] >= 0:
+# 			val3 = 1
+# 		if arr4[i] >= 0:
+# 			val4 = 1
+
+# 		if arr5[i] >= 0:
+# 			featureset.append([[val1, val2, val3, val4], [1,0]])
+# 			# featureset.append([_, [1,0]])
+# 		else:
+# 			featureset.append([[val1, val2, val3, val4], [0,1]])
+# 			# featureset.append([_, [0,1]])
+# 	return featureset
+
 def sample_handling(arr1, arr2, arr3, arr4, arr5):
 	featureset = []
 	for i in range(len(arr5)):
 
-		val1 = val2 = val3 = val4 = 0
-
-		if arr1[i] >= 0:
-			val1 = 1
-		if arr2[i] >= 0:
-			val2 = 1
-		if arr3[i] >= 0:
-			val3 = 1
-		if arr4[i] >= 0:
-			val4 = 1
+		val1 = arr1[i]
+		val2 = arr2[i]
+		val3 = arr3[i]
+		val4 = arr4[i]
+		val5 = arr5[i]
 
 		if arr5[i] >= 0:
 			featureset.append([[val1, val2, val3, val4], [1,0]])
