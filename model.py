@@ -43,27 +43,11 @@ def model():
     output = tf.nn.softmax(output)
 
     output_clipped = tf.clip_by_value(output, 1e-10, 0.9999999)
-    cross_entropy = -tf.reduce_mean(tf.reduce_sum(outputLayer * tf.log(output_clipped) + (1 - outputLayer) * tf.log(1 - output_clipped), axis = 1))
 
-    optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(cross_entropy)
+    output_clipped = tf.round(output_clipped)
+    expected = tf.round(outputLayer)
 
-    init_op = tf.global_variables_initializer()
+    correct = tf.equal(output_clipped, expected)
+    accuracy = tf.reduce_mean(correct)
 
-    numCorrect = 0.0;
-    expected = 0;
-    actual = 0;
-
-    for x range (0,4)
-        if output[x] > .5
-            expected = 1.0;
-        else
-            expected = 0.0;
-
-        if outputLayer[x] > 0
-            actual = 1.0;
-        else
-            expected = 0.0
-        if expected == actual
-        numCorrect += 1.0
-
-        accuracy = numCorrect / 5.0
+    print('Accuracy: ', accuracy)
