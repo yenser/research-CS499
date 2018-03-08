@@ -33,7 +33,7 @@ n_nodes_hl3 = 500
 n_classes = 2 # how many outputs
 batch_size = 3392 # adjust this for batchsize
 
-train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
+train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 # height x width
 
@@ -74,36 +74,6 @@ def neural_network_model(data):
 saver = tf.train.Saver()
 # saver.recover('/models/4in_model.ckpt')
 
-
-
-def use_neural_network(input_data):
-    prediction = neural_network_model(x)
-    with open('lexicon.pickle','rb') as f:
-        lexicon = pickle.load(f)
-        
-    with tf.Session() as sess:
-        sess.run(tf.initialize_all_variables())
-        saver.restore(sess,"model.ckpt")
-        current_words = word_tokenize(input_data.lower())
-        current_words = [lemmatizer.lemmatize(i) for i in current_words]
-        features = np.zeros(len(lexicon))
-
-        for word in current_words:
-            if word.lower() in lexicon:
-                index_value = lexicon.index(word.lower())
-                # OR DO +=1, test both
-                features[index_value] += 1
-
-        features = np.array(list(features))
-        # pos: [1,0] , argmax: 0
-        # neg: [0,1] , argmax: 1
-        result = (sess.run(tf.argmax(prediction.eval(feed_dict={x:[features]}),1)))
-        if result[0] == 0:
-            print('Positive:',input_data)
-        elif result[0] == 1:
-            print('Negative:',input_data)
-
-
 def train_neural_network(x, hm_epochs=10):
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
@@ -140,21 +110,27 @@ def train_neural_network(x, hm_epochs=10):
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
 
+def use_neural_network(input_data, comp_name):
+    prediction = neural_network_model(x)
+            
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        saver.restore(sess,filename)
+
+        features = np.array(list(input_data))
+        print("features:", features)
+
+        # up: [1,0] , argmax: 0
+        # down: [0,1] , argmax: 1
+        result = sess.run(tf.argmax(prediction.eval(feed_dict={x:features},1)))
+        # if result[0] == 0:
+        #     print(comp_name,' will go up: ',input_data)
+        # elif result[0] == 1:
+        #     print(comp_name,' will go up: ',input_data)
 
 
+# train_neural_network(x)
 
-		# for epoch in range(hm_epochs):
-		# 	epoch_loss = 0
-		# 	for _ in range(int(mnist.train.num_examples/batch_size)):
-		# 		epoch_x, epoch_y = mnist.train.next_batch(batch_size)
-		# 		_, c = sess.run([optimizer, cost], feed_dict={x: epoch_x, y: epoch_y})
-		# 		epoch_loss += c
-		# 	print('Epoch', epoch, 'completed out of', hm_epochs, 'loss', epoch_loss)
-
-		# correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
-		# accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
-		# print('Accuracy:', accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
-
-train_neural_network(x)
+use_neural_network([1,1,1,1,1,1], 'ORACLE')
 # use_neural_network("He's an idiot and a jerk.")
 # use_neural_network("This was the best store i've ever seen.")
