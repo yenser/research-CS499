@@ -24,7 +24,7 @@ feed forward + backprop = epoch
 
 # 10 classes, 0-9
 
-filename='models/4in_model.ckpt'
+filename='./models/4in_model.ckpt'
 
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
@@ -37,10 +37,10 @@ train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAP
 
 # height x width
 
-input_size = len(train_x[0])
+input_size = 5
 print("Input Size: ", input_size)
 print('Batch Size: ', batch_size)
-x  = tf.placeholder('float') # input data
+x = tf.placeholder('float') # input data
 y = tf.placeholder('float')
 
 hidden_1_layer = {'f_fum':n_nodes_hl1,'weights': tf.Variable(tf.random_normal([input_size, n_nodes_hl1])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl1]))}
@@ -122,15 +122,14 @@ def use_neural_network(input_data, comp_name):
 
         # up: [1,0] , argmax: 0
         # down: [0,1] , argmax: 1
-        result = sess.run(tf.argmax(prediction.eval(feed_dict={x:features},1)))
+        result = sess.run(tf.argmax(prediction.eval(feed_dict={x:[features]}),1))
+        # print(prediction.eval(feed_dict={x:features}))
         # if result[0] == 0:
         #     print(comp_name,' will go up: ',input_data)
         # elif result[0] == 1:
         #     print(comp_name,' will go up: ',input_data)
 
 
-# train_neural_network(x)
+train_neural_network(x)
 
-use_neural_network([1,1,1,1,1,1], 'ORACLE')
-# use_neural_network("He's an idiot and a jerk.")
-# use_neural_network("This was the best store i've ever seen.")
+# use_neural_network([1,1,1,1,1,1], 'ORACLE')
