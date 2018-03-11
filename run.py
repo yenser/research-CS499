@@ -57,17 +57,24 @@ def use_neural_network(input_data, comp_name):
         saver.restore(sess,filename)
 
         features = np.array(list(input_data))
-        print("features:", features)
+        print("\nInput:", features)
 
         # up: [1,0] , argmax: 0
         # down: [0,1] , argmax: 1
         result = sess.run(tf.argmax(prediction.eval(feed_dict={x:[features]}),1))
-        print(prediction.eval(feed_dict={x:[features]}))
-        if result[0] == 0:
-            print(comp_name,' will go down: ',input_data)
-        elif result[0] == 1:
-            print(comp_name,' will go up: ',input_data)
+        print("prediction: ",prediction.eval(feed_dict={x:[features]}))
+        print("output: ", result)
+        if result[0] == 1:
+            print(comp_name,' will go down')
+        elif result[0] == 0:
+            print(comp_name,' will go up')
 
 
 
 use_neural_network([1,1,1,1,1], 'ORACLE')
+use_neural_network([0,0,0,0,0], 'ORACLE')
+use_neural_network([1,1,0,1,0], 'ORACLE')
+use_neural_network([0,1,1,1,1], 'ORACLE')
+use_neural_network([1,0,0,0,1], 'ORACLE')
+
+

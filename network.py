@@ -30,10 +30,11 @@ n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
-n_classes = 2 # how many outputs
 batch_size = 3392 # adjust this for batchsize
 
 train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+
+n_classes = len(train_y[0]) # how many outputs
 
 # height x width
 
@@ -74,7 +75,7 @@ def neural_network_model(data):
 saver = tf.train.Saver()
 # saver.recover('/models/4in_model.ckpt')
 
-def train_neural_network(x, hm_epochs=10):
+def train_neural_network(x, hm_epochs=50):
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
 
@@ -83,6 +84,7 @@ def train_neural_network(x, hm_epochs=10):
 
 	with tf.Session() as sess:
 		sess.run(tf.global_variables_initializer())
+		saver.restore(sess,filename)
 
 
 		for epoch in range(hm_epochs):
@@ -110,26 +112,4 @@ def train_neural_network(x, hm_epochs=10):
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
 
-def use_neural_network(input_data, comp_name):
-    prediction = neural_network_model(x)
-            
-    with tf.Session() as sess:
-        sess.run(tf.global_variables_initializer())
-        saver.restore(sess,filename)
-
-        features = np.array(list(input_data))
-        print("features:", features)
-
-        # up: [1,0] , argmax: 0
-        # down: [0,1] , argmax: 1
-        result = sess.run(tf.argmax(prediction.eval(feed_dict={x:[features]}),1))
-        # print(prediction.eval(feed_dict={x:features}))
-        # if result[0] == 0:
-        #     print(comp_name,' will go up: ',input_data)
-        # elif result[0] == 1:
-        #     print(comp_name,' will go up: ',input_data)
-
-
 train_neural_network(x)
-
-# use_neural_network([1,1,1,1,1,1], 'ORACLE')
