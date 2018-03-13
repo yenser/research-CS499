@@ -7,8 +7,7 @@ from create_test_data import get_data_and_create_test_set
 import libs.bcolors as c
 
 
-
-company = 'ORACLE'
+company = 'INTEL'
 
 work_path = './models/'+company+'/'
 filename=work_path+company+'_model.ckpt'
@@ -27,7 +26,7 @@ input_size = 5
 x = tf.placeholder('float') # input data
 y = tf.placeholder('float')
 
-train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('NVDA','AMD','HP','ASUUY','IBM','INTC')
 
 current_epoch = tf.Variable(1)
 
@@ -88,7 +87,7 @@ print(len(test_x))
 runTotal = 100
 
 for i in range(runTotal):
-    res = use_neural_network(test_x[i], 'ORACLE')
+    res = use_neural_network(test_x[i], company)
     if (res == 1 and test_y[i] == [1,0]) or (res == 0 and test_y[i] == [0,1]):
         print(c.OKGREEN, 'CORRECT')
         correct += 1

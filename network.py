@@ -26,7 +26,7 @@ feed forward + backprop = epoch
 # 10 classes, 0-9
 
 
-company = 'ORACLE'
+company = 'INTEL'
 
 load = 0
 
@@ -44,17 +44,12 @@ n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
-batch_size = 3392 # adjust this for batchsize
-
-# train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
-
 n_classes = 2 # how many outputs
 
 # height x width
 
 input_size = 5
 print("Input Size: ", input_size)
-print('Batch Size: ', batch_size)
 x = tf.placeholder('float') # input data
 y = tf.placeholder('float')
 
@@ -107,7 +102,7 @@ def train_neural_network(x, hm_epochs=50):
 		for epoch in range(hm_epochs):
 			epoch_loss = 0
 
-			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('NVDA','AMD','HP','ASUUY','IBM','INTC')
 
 			i = 0
 			while i < len(train_x):
