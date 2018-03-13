@@ -3,13 +3,22 @@
 # imports
 import tensorflow as tf
 import numpy as np
+from create_test_data import get_data_and_create_test_set
+import libs.bcolors as c
 
-filenameMeta='./models/4in_model.ckpt.meta'
-filename='./models/4in_model.ckpt'
+
+
+company = 'ORACLE'
+
+work_path = './models/'+company+'/'
+filename=work_path+company+'_model.ckpt'
+filenameMeta=work_path+company+'_model.ckpt.meta'
 
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
+
+correct = 0
 
 n_classes = 2 # how many outputs
 batch_size = 3392 # adjust this for batchsize
@@ -17,6 +26,8 @@ batch_size = 3392 # adjust this for batchsize
 input_size = 5
 x = tf.placeholder('float') # input data
 y = tf.placeholder('float')
+
+train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 current_epoch = tf.Variable(1)
 
@@ -57,7 +68,7 @@ def use_neural_network(input_data, comp_name):
         saver.restore(sess,filename)
 
         features = np.array(list(input_data))
-        print("\nInput:", features)
+        print(c.HEADER,"\nInput:", features)
 
         # up: [1,0] , argmax: 0
         # down: [0,1] , argmax: 1
@@ -69,12 +80,27 @@ def use_neural_network(input_data, comp_name):
         elif result[0] == 0:
             print(comp_name,' will go up')
 
+        return result[0]
 
 
-use_neural_network([1,1,1,1,1], 'ORACLE')
-use_neural_network([0,0,0,0,0], 'ORACLE')
-use_neural_network([1,1,0,1,0], 'ORACLE')
-use_neural_network([0,1,1,1,1], 'ORACLE')
-use_neural_network([1,0,0,0,1], 'ORACLE')
+print(len(test_x))
+
+runTotal = 100
+
+for i in range(runTotal):
+    res = use_neural_network(test_x[i], 'ORACLE')
+    if (res == 1 and test_y[i] == [1,0]) or (res == 0 and test_y[i] == [0,1]):
+        print(c.OKGREEN, 'CORRECT')
+        correct += 1
+    else:
+        print(c.FAIL, 'FAIL')
+    print(c.WARNING,'TEST [',i+1,'|',runTotal,']')
+
+print(c.OKGREEN, correct, ' are Correct\n', c.FAIL, runTotal-correct, ' are Wrong\n', c.HEADER, (correct/runTotal)*100, '% Correctness')
+# use_neural_network([89,2,-100,30,-300], 'ORACLE')
+# use_neural_network([0,0,0,0,0], 'ORACLE')
+# use_neural_network([1,1,0,1,0], 'ORACLE')
+# use_neural_network([0,1,1,1,1], 'ORACLE')
+# use_neural_network([1,0,0,0,1], 'ORACLE')
 
 

@@ -3,6 +3,7 @@
 # imports
 import tensorflow as tf
 import numpy as np
+import os
 from create_test_data import get_data_and_create_test_set
 
 
@@ -24,7 +25,20 @@ feed forward + backprop = epoch
 
 # 10 classes, 0-9
 
-filename='./models/4in_model.ckpt'
+
+company = 'ORACLE'
+
+load = 0
+
+#Check Directory
+work_path = './models/'+company+'/'
+filename=work_path+company+'_model.ckpt'
+
+if not os.path.exists(work_path):
+	os.makedirs('./models/'+company+'/')
+	print("files: ", os.listdir(work_path))
+if os.listdir(work_path) == '':
+	load = 1
 
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
@@ -32,9 +46,9 @@ n_nodes_hl3 = 500
 
 batch_size = 3392 # adjust this for batchsize
 
-train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+# train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
-n_classes = len(train_y[0]) # how many outputs
+n_classes = 2 # how many outputs
 
 # height x width
 
@@ -84,11 +98,16 @@ def train_neural_network(x, hm_epochs=50):
 
 	with tf.Session() as sess:
 		sess.run(tf.global_variables_initializer())
-		saver.restore(sess,filename)
+
+		if load == 1:
+			print("RESTORING")
+			saver.restore(sess,filename)
 
 
 		for epoch in range(hm_epochs):
 			epoch_loss = 0
+
+			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 			i = 0
 			while i < len(train_x):
