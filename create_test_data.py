@@ -25,7 +25,7 @@ def sample_handling(arr1, arr2, arr3, arr4, arr5, arr6):
 			# featureset.append([_, [0,1]])
 	return featureset
 
-def create_test_sets(arr1, arr2, arr3, arr4, arr5, arr6, test_size=0.1):
+def create_test_sets(arr1, arr2, arr3, arr4, arr5, arr6, test_size=0.4): # test size is the pecent (0.1=10%)
 	features = []
 
 	features += sample_handling(arr1, arr2, arr3, arr4, arr5, arr6)

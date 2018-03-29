@@ -26,7 +26,7 @@ feed forward + backprop = epoch
 # 10 classes, 0-9
 
 
-company = 'INTEL'
+company = 'ORACLE'
 
 load = 0
 
@@ -102,7 +102,7 @@ def train_neural_network(x, hm_epochs=50):
 		for epoch in range(hm_epochs):
 			epoch_loss = 0
 
-			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('NVDA','AMD','HP','ASUUY','IBM','INTC')
+			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 			i = 0
 			while i < len(train_x):

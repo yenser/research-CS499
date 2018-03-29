@@ -7,7 +7,7 @@ from create_test_data import get_data_and_create_test_set
 import libs.bcolors as c
 
 
-company = 'INTEL'
+company = 'ORACLE'
 
 work_path = './models/'+company+'/'
 filename=work_path+company+'_model.ckpt'
@@ -26,7 +26,7 @@ input_size = 5
 x = tf.placeholder('float') # input data
 y = tf.placeholder('float')
 
-train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('NVDA','AMD','HP','ASUUY','IBM','INTC')
+train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 current_epoch = tf.Variable(1)
 
