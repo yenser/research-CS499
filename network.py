@@ -84,7 +84,7 @@ def neural_network_model(data):
 saver = tf.train.Saver()
 # saver.recover('/models/4in_model.ckpt')
 
-def train_neural_network(x, hm_epochs=50):
+def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
 
@@ -102,7 +102,7 @@ def train_neural_network(x, hm_epochs=50):
 		for epoch in range(hm_epochs):
 			epoch_loss = 0
 
-			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+			train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set(str1,str2,str3,str4,str5,str6)
 
 			i = 0
 			while i < len(train_x):
@@ -126,4 +126,15 @@ def train_neural_network(x, hm_epochs=50):
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
 
-train_neural_network(x)
+print("ORACLE")
+train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+print("ADBE")
+train_neural_network(x, 'ORCL', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
+print("AMZN")
+train_neural_network(x, 'ADBE', 'ORCL', 'AAPL', 'MSFT', 'GOOGL', 'AMZN')
+print("GOOGL")
+train_neural_network(x, 'AMZN', 'ADBE', 'ORCL', 'AAPL', 'MSFT', 'GOOGL')
+print("MSFT")
+train_neural_network(x, 'GOOGL', 'AMZN', 'ADBE', 'ORCL', 'AAPL', 'MSFT')
+print("AAPL")
+train_neural_network(x, 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL', 'AAPL')
