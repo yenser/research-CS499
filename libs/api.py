@@ -10,7 +10,7 @@ apikey = 'ZR07VE377CJYBGLJ'
 
 
 def writeFile(comp, ext, data, length):
-	fname = 'data/csv/'+comp+'/'+length+'_'+comp+ext
+	fname = 'dataNew/csv/'+comp+'/'+length+'_'+comp+ext
 	manageFile(fname)
 	try:
 		text_file = open(fname, "w")
@@ -133,13 +133,13 @@ def requestMinutely(comp):
 
 def manageTypeDirectory():
 	#Check if directory for file type is in exsistance
-	if not os.path.exists('data/csv/'):
-		os.makedirs('data/csv/')
+	if not os.path.exists('dataNew/csv/'):
+		os.makedirs('dataNew/csv/')
 
 def manageDirectory(comp):
 	#Check Directory
-	if not os.path.exists('data/csv/'+comp+'/'):
-		os.makedirs('data/csv/'+comp+'/')
+	if not os.path.exists('dataNew/csv/'+comp+'/'):
+		os.makedirs('dataNew/csv/'+comp+'/')
 
 def manageFile(fname):
 	#Remove fname.json

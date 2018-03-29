@@ -3,10 +3,10 @@ import csv
 import libs.bcolors as c
 
 def calcDeltas(increment, stock):
-    with open('data/csv/' + stock + '/' + increment + '_' + stock + '.csv', 'r') as csvfile:
-        if not os.path.exists('data/delta/' + stock + '/'):
-            os.makedirs('data/delta/' + stock + '/')
-        with open('data/delta/' + stock + '/' + increment + '_' +stock + '_DELTA.csv', 'w+') as deltafile:
+    with open('dataNew/csv/' + stock + '/' + increment + '_' + stock + '.csv', 'r') as csvfile:
+        if not os.path.exists('dataNew/delta/' + stock + '/'):
+            os.makedirs('dataNew/delta/' + stock + '/')
+        with open('dataNew/delta/' + stock + '/' + increment + '_' +stock + '_DELTA.csv', 'w+') as deltafile:
             try:
                 readcsv = csv.reader(csvfile, delimiter = ',')
                 writecsv = csv.writer(deltafile, delimiter = ',')
