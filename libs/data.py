@@ -4,12 +4,12 @@ from numpy import genfromtxt
 def readCSV(fileName):
 	data = genfromtxt(fileName, delimiter=',')
 	return data
-	
+
 def size_test_results(arr1, arr2, arr3, arr4, arr5, arr6):
 	smallest = len(arr1)
 
 	if(len(arr2) < smallest):
-		smallest = len(arr2)	
+		smallest = len(arr2)
 	if(len(arr3)< smallest):
 		smallest = len(arr3)
 	if(len(arr4) < smallest):
@@ -24,7 +24,7 @@ def size_test_results(arr1, arr2, arr3, arr4, arr5, arr6):
 
 
 def get_file_data(comp):
-	arr = readCSV('data/delta/'+comp+'/DAILY_'+comp+'_DELTA.csv') # read delta AAPL
+	arr = readCSV('dataNew/delta/'+comp+'/DAILY_'+comp+'_DELTA.csv') # read delta AAPL
 
 	return arr
 

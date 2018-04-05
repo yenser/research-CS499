@@ -8,7 +8,7 @@ from create_test_data import get_data_and_create_test_set
 
 
 '''
-input > weight > hidden layer 1 (activation function) > 
+input > weight > hidden layer 1 (activation function) >
 weights > hidden l2 (activation function) > weights > output layer
 
 compare output to intended output > cost function (cross entropy)

@@ -51,3 +51,5 @@ def model():
     accuracy = tf.reduce_mean(correct)
 
     print('Accuracy: ', accuracy)
+
+    

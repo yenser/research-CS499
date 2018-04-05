@@ -61,7 +61,7 @@ saver = tf.train.import_meta_graph(filenameMeta)
 
 def use_neural_network(input_data, comp_name):
     prediction = neural_network_model(x)
-            
+
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         saver.restore(sess,filename)
@@ -86,6 +86,8 @@ print(len(test_x))
 
 runTotal = 100
 
+file = open("dataNew/AccuracyOverTime/accuracy.txt", "w")
+
 for i in range(runTotal):
     res = use_neural_network(test_x[i], company)
     if (res == 1 and test_y[i] == [1,0]) or (res == 0 and test_y[i] == [0,1]):
@@ -95,11 +97,12 @@ for i in range(runTotal):
         print(c.FAIL, 'FAIL')
     print(c.WARNING,'TEST [',i+1,'|',runTotal,']')
 
+    file.write(str(correct/runtotal) + "\n")
+
+file.close()
 print(c.OKGREEN, correct, ' are Correct\n', c.FAIL, runTotal-correct, ' are Wrong\n', c.HEADER, (correct/runTotal)*100, '% Correctness')
 # use_neural_network([89,2,-100,30,-300], 'ORACLE')
 # use_neural_network([0,0,0,0,0], 'ORACLE')
 # use_neural_network([1,1,0,1,0], 'ORACLE')
 # use_neural_network([0,1,1,1,1], 'ORACLE')
 # use_neural_network([1,0,0,0,1], 'ORACLE')
-
-
