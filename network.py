@@ -78,8 +78,6 @@ def neural_network_model(data):
 
 	return output
 
-
-
 ### IMPORTANT:
 saver = tf.train.Saver()
 # saver.recover('/models/4in_model.ckpt')
@@ -130,12 +128,13 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 		else
 			total = total + 1
 
-		accuracy.write(numCorrect/total + '\n')
+		testAccuracy.write(numCorrect/total + '\n')
 
 		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
-accuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
+trainAccuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
+
 
 numCorrect = 0
 total = 0
