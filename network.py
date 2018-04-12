@@ -124,13 +124,19 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 
 		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 
+		if correct
+			numCorrect = numCorrect + 1
+			total = total + 1
+		else
+			total = total + 1
+
+		accuracy.write(numCorrect/total + '\n')
 
 		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
 accuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
-guess = open("dataNew/AccuracyOverTime/trainPrediction.txt", "w")
-actual = open("dataNew/AccuracyOverTime/trainActual.txt", "w")
+
 numCorrect = 0
 total = 0
 
