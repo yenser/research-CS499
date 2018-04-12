@@ -86,20 +86,32 @@ print(len(test_x))
 
 runTotal = 100
 
-file = open("dataNew/AccuracyOverTime/accuracy.txt", "w")
+testAccuracy = open("dataNew/dataForGraphing/testAccuracy.txt", "w")
+testPrediction = open("dataNew/AccuracyOverTime/testPrediction.txt", "w")
+testActual = open("dataNew/AccuracyOverTime/ testActual.txt", "w")
 
 for i in range(runTotal):
     res = use_neural_network(test_x[i], company)
+    testActual.write(res + '\n')
     if (res == 1 and test_y[i] == [1,0]) or (res == 0 and test_y[i] == [0,1]):
         print(c.OKGREEN, 'CORRECT')
         correct += 1
+
+        testPrediction.write(res + '\n')
+
     else:
         print(c.FAIL, 'FAIL')
+
+        if(res == 1)
+            testPrediction.write(0 + '\n')
+        else
+            testPrediction.write(1 + '\n')
+
     print(c.WARNING,'TEST [',i+1,'|',runTotal,']')
 
-    file.write(str(correct/runtotal) + "\n")
+    accuracy.write(str(correct/runtotal) + "\n")
 
-file.close()
+accuracy.close()
 print(c.OKGREEN, correct, ' are Correct\n', c.FAIL, runTotal-correct, ' are Wrong\n', c.HEADER, (correct/runTotal)*100, '% Correctness')
 # use_neural_network([89,2,-100,30,-300], 'ORACLE')
 # use_neural_network([0,0,0,0,0], 'ORACLE')

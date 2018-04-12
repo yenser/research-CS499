@@ -113,6 +113,7 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 				batch_y = np.array(train_y[start:end])
 
 				_, c = sess.run([optimizer, cost], feed_dict={x: batch_x, y: batch_y})
+
 				epoch_loss += c
 				i+=batch_size
 				# print(tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1)))
@@ -122,9 +123,16 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 
 
 		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
+
+
 		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
+accuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
+guess = open("dataNew/AccuracyOverTime/trainPrediction.txt", "w")
+actual = open("dataNew/AccuracyOverTime/trainActual.txt", "w")
+numCorrect = 0
+total = 0
 
 print("ORACLE")
 train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
