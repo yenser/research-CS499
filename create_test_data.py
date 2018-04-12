@@ -8,7 +8,7 @@ from numpy import random
 
 def sample_handling(arr1, arr2, arr3, arr4, arr5, arr6):
 	featureset = []
-	for i in range(len(arr6)-1):
+	for i in range(len(arr6)-2):
 
 		val1 = arr1[i]
 		val2 = arr2[i]
@@ -112,4 +112,3 @@ if __name__ == '__main__':
 	with open('dataset.pickle', 'wb') as f:
 		pickle.dump([train_x, train_y, test_x, test_y], f)
 	print('Writing success!')
-

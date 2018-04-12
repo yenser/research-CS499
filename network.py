@@ -82,7 +82,7 @@ def neural_network_model(data):
 saver = tf.train.Saver()
 # saver.recover('/models/4in_model.ckpt')
 
-def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
+def train_neural_network(x, str1, str2, str3, str4, str5, str6, testAccuracy, hm_epochs=50):
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
 
@@ -139,8 +139,8 @@ trainAccuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
 numCorrect = 0
 total = 0
 
-print("ORACLE")
-train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+print("ORACLE") 
+train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL', trainAccuracy)
 print("ADBE")
 train_neural_network(x, 'ORCL', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
 print("AMZN")
