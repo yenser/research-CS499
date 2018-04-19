@@ -26,20 +26,6 @@ feed forward + backprop = epoch
 # 10 classes, 0-9
 
 
-company = 'ORACLE'
-
-load = 0
-
-#Check Directory
-work_path = './models/'+company+'/'
-filename=work_path+company+'_model.ckpt'
-
-if not os.path.exists(work_path):
-	os.makedirs('./models/'+company+'/')
-	print("files: ", os.listdir(work_path))
-if os.listdir(work_path) == '':
-	load = 1
-
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
@@ -85,8 +71,23 @@ saver = tf.train.Saver()
 def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 
 	global numCorrect
-	global trainAccuracy
 	global total
+
+	company = str6
+
+	load = 0
+
+	#Check Directory
+	work_path = './models/'+company+'/'
+	filename=work_path+company+'_model.ckpt'
+	trainAccuracy = open("dataNew/dataForGraphing/trainAccuracy"+company+".txt", "w")
+
+
+	if not os.path.exists(work_path):
+		os.makedirs('./models/'+company+'/')
+		print("files: ", os.listdir(work_path))
+	if os.listdir(work_path) == '':
+		load = 1
 
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
@@ -123,22 +124,26 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 
 			saver.save(sess, filename)
 			print('Epoch', epoch+1, 'completed out of', hm_epochs, 'loss', epoch_loss)
+			
+			correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
+			accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
+			print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
+			trainAccuracy.write(str(accuracy.eval({x:test_x, y:test_y})) + '\n')
+
+
 
 
 		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 
-		if correct != None:
-			numCorrect = numCorrect + 1
-			total = total + 1
-		else:
-			total = total + 1
-
-		trainAccuracy.write(str(numCorrect/total) + '\n')
+		# if correct != None:
+		# 	numCorrect = numCorrect + 1
+		# 	total = total + 1
+		# else:
+		# 	total = total + 1
 
 		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
-		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
+		print('\n Final Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
-trainAccuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
 
 numCorrect = 0
 total = 0
