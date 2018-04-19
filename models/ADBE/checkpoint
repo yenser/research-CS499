@@ -1,3 +1,0 @@
-model_checkpoint_path: "ADBE_model.ckpt"
-all_model_checkpoint_paths: "../ORCL/ORCL_model.ckpt"
-all_model_checkpoint_paths: "ADBE_model.ckpt"

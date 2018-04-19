@@ -1,2 +1,0 @@
-model_checkpoint_path: "ORACLE_model.ckpt"
-all_model_checkpoint_paths: "ORACLE_model.ckpt"

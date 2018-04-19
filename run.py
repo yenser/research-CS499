@@ -3,11 +3,12 @@
 # imports
 import tensorflow as tf
 import numpy as np
-from create_test_data import get_data_and_create_test_set
+from create_test_data import get_data_and_create_run_set
 import libs.bcolors as c
 
-
 company = 'ORACLE'
+run_x, run_y, batch_size = get_data_and_create_run_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
+
 
 work_path = './models/'+company+'/'
 filename=work_path+company+'_model.ckpt'
@@ -25,8 +26,6 @@ batch_size = 3392 # adjust this for batchsize
 input_size = 5
 x = tf.placeholder('float') # input data
 y = tf.placeholder('float')
-
-train_x, train_y, test_x, test_y, batch_size = get_data_and_create_test_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 current_epoch = tf.Variable(1)
 
@@ -59,7 +58,7 @@ def neural_network_model(data):
 saver = tf.train.import_meta_graph(filenameMeta)
 
 
-def use_neural_network(input_data, comp_name):
+def use_neural_network(input_data, hm_epchs=34):
     prediction = neural_network_model(x)
 
     with tf.Session() as sess:
@@ -84,16 +83,16 @@ def use_neural_network(input_data, comp_name):
 
 print(len(test_x))
 
-runTotal = 100
+runTotal = 34
 
 testAccuracy = open("dataNew/dataForGraphing/testAccuracy.txt", "w")
 testPrediction = open("dataNew/AccuracyOverTime/testPrediction.txt", "w")
 testActual = open("dataNew/AccuracyOverTime/ testActual.txt", "w")
 
 for i in range(runTotal):
-    res = use_neural_network(test_x[i], company)
+    res = use_neural_network(run_x[i], company)
     testActual.write(res + '\n')
-    if (res == 1 and test_y[i] == [1,0]) or (res == 0 and test_y[i] == [0,1]):
+    if (res == 1 and run_y[i] == [1,0]) or (res == 0 and run_y[i] == [0,1]):
         print(c.OKGREEN, 'CORRECT')
         correct += 1
 
@@ -102,9 +101,9 @@ for i in range(runTotal):
     else:
         print(c.FAIL, 'FAIL')
 
-        if(res == 1)
+        if(res == 1):
             testPrediction.write(0 + '\n')
-        else
+        else:
             testPrediction.write(1 + '\n')
 
     print(c.WARNING,'TEST [',i+1,'|',runTotal,']')

@@ -42,6 +42,19 @@ def create_test_sets(arr1, arr2, arr3, arr4, arr5, arr6, test_size=0.4): # test 
 
 	return train_x, train_y, test_x, test_y
 
+def create_run_sets(arr1, arr2, arr3, arr4, arr5, arr6, test_size=34): # test size is the pecent (0.1=10%)
+	features = []
+
+	features += sample_handling(arr1, arr2, arr3, arr4, arr5, arr6)
+
+	testing_size = int(test_size*len(features))
+
+	features = np.array(features, dtype=object)
+	random.shuffle(features)
+	run_x = list(features[:,0][:-test_size])
+	run_y = list(features[:,1][:-test_size])
+
+	return run_x, run_y
 
 def get_data_and_create_test_set(str1, str2, str3, str4, str5, str6):
 	# get data - set to smallest size - flip array
@@ -65,6 +78,27 @@ def get_data_and_create_test_set(str1, str2, str3, str4, str5, str6):
 
 	return train_x, train_y, test_x, test_y, batch_size
 
+def get_data_and_create_run_set(str1, str2, str3, str4, str5, str6):
+	# get data - set to smallest size - flip array
+	AAPL = data.get_new_file_data(str1)
+	MSFT = data.get_new_file_data(str2)
+	GOOGL = data.get_new_file_data(str3)
+	AMZN = data.get_new_file_data(str4)
+	ADBE = data.get_new_file_data(str5)
+	ORCL = data.get_new_file_data(str6)
+	AAPL, MSFT, GOOGL, AMZN, ADBE, ORCL= data.size_test_results(AAPL, MSFT, GOOGL, AMZN, ADBE, ORCL)
+	AAPL = data.flip_array(AAPL)
+	MSFT = data.flip_array(MSFT)
+	GOOGL = data.flip_array(GOOGL)
+	AMZN = data.flip_array(AMZN)
+	ADBE = data.flip_array(ADBE)
+	ORCL = data.flip_array(ORCL)
+	# finish pulling data
+
+	batch_size = 34
+	run_x, run_y = create_run_sets(AAPL, MSFT, GOOGL, AMZN, ADBE, ORCL)
+
+	return run_x, run_y, batch_size
 
 def get_data_for_joel(str1, str2, str3, str4, str5, str6):
 	AAPL = data.get_file_data(str1)

@@ -1,4 +1,0 @@
-model_checkpoint_path: "AMZN_model.ckpt"
-all_model_checkpoint_paths: "../ORCL/ORCL_model.ckpt"
-all_model_checkpoint_paths: "../ADBE/ADBE_model.ckpt"
-all_model_checkpoint_paths: "AMZN_model.ckpt"

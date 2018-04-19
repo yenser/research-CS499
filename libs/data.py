@@ -24,10 +24,14 @@ def size_test_results(arr1, arr2, arr3, arr4, arr5, arr6):
 
 
 def get_file_data(comp):
-	arr = readCSV('dataNew/delta/'+comp+'/DAILY_'+comp+'_DELTA.csv') # read delta AAPL
+	arr = readCSV('data/delta/'+comp+'/DAILY_'+comp+'_DELTA.csv') # read delta AAPL
 
 	return arr
 
+def get_new_file_data(comp):
+	arr = readCSV('dataNew/delta/'+comp+'/DAILY_'+comp+'_DELTA.csv') # read delta AAPL
+
+	return arr
 
 def flip_array(arr):
 	return arr[::-1]
