@@ -82,7 +82,12 @@ def neural_network_model(data):
 saver = tf.train.Saver()
 # saver.recover('/models/4in_model.ckpt')
 
-def train_neural_network(x, str1, str2, str3, str4, str5, str6, testAccuracy, hm_epochs=50):
+def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
+
+	global numCorrect
+	global trainAccuracy
+	global total
+
 	prediction = neural_network_model(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=prediction, labels=y))
 
@@ -122,25 +127,24 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, testAccuracy, hm
 
 		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 
-		if correct
+		if correct != None:
 			numCorrect = numCorrect + 1
 			total = total + 1
-		else
+		else:
 			total = total + 1
 
-		testAccuracy.write(numCorrect/total + '\n')
+		trainAccuracy.write(str(numCorrect/total) + '\n')
 
 		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
 		print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
 trainAccuracy = open("dataNew/dataForGraphing/trainAccuracy.txt", "w")
 
-
 numCorrect = 0
 total = 0
 
 print("ORACLE") 
-train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL', trainAccuracy)
+train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 print("ADBE")
 train_neural_network(x, 'ORCL', 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE')
 print("AMZN")
