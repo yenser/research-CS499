@@ -59,6 +59,7 @@ saver = tf.train.import_meta_graph(filenameMeta)
 
 
 def use_neural_network(input_data, hm_epchs=34):
+
     prediction = neural_network_model(x)
 
     with tf.Session() as sess:
@@ -85,9 +86,9 @@ print(len(test_x))
 
 runTotal = 34
 
-testAccuracy = open("dataNew/dataForGraphing/testAccuracy.txt", "w")
-testPrediction = open("dataNew/AccuracyOverTime/testPrediction.txt", "w")
-testActual = open("dataNew/AccuracyOverTime/ testActual.txt", "w")
+testAccuracy = open("dataNew/dataForGraphing/testAccuracy" + company + ".txt", "w")
+testPrediction = open("dataNew/AccuracyOverTime/testPrediction" + company + ".txt", "w")
+testActual = open("dataNew/AccuracyOverTime/ testActual" + company + ".txt", "w")
 
 for i in range(runTotal):
     res = use_neural_network(run_x[i], company)
