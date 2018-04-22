@@ -80,7 +80,7 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 	#Check Directory
 	work_path = './models/'+company+'/'
 	filename=work_path+company+'_model.ckpt'
-	trainAccuracy = open("dataNew/dataForGraphing/trainAccuracy"+company+".txt", "w")
+	trainAccuracy = open("dataNew/dataForGraphing/Accuracy"+company+".csv", "w")
 
 
 	if not os.path.exists(work_path):
@@ -127,13 +127,17 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 			
 			correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 			accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
-			print('Accuracy:', accuracy.eval({x:test_x, y:test_y}))
+			print('Train Accuracy:', accuracy.eval({x:train_x, y:train_y}))
+			trainAccuracy.write(str(accuracy.eval({x:train_x, y:train_y})) + ',')
+
+			print('Test Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 			trainAccuracy.write(str(accuracy.eval({x:test_x, y:test_y})) + '\n')
 
 
+		print("\n")
 
 
-		correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
+		# correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y,1))
 
 		# if correct != None:
 		# 	numCorrect = numCorrect + 1
@@ -141,13 +145,14 @@ def train_neural_network(x, str1, str2, str3, str4, str5, str6, hm_epochs=50):
 		# else:
 		# 	total = total + 1
 
-		accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
-		print('\n Final Accuracy:', accuracy.eval({x:test_x, y:test_y}))
+		# accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
+		# print('\n Final Accuracy:', accuracy.eval({x:test_x, y:test_y}))
 
 
 numCorrect = 0
 total = 0
 
+# Software
 print("ORACLE") 
 train_neural_network(x, 'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 print("ADBE")
@@ -160,3 +165,33 @@ print("MSFT")
 train_neural_network(x, 'GOOGL', 'AMZN', 'ADBE', 'ORCL', 'AAPL', 'MSFT')
 print("AAPL")
 train_neural_network(x, 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL', 'AAPL')
+
+# Communications
+print("AT&T") 
+train_neural_network(x, 'CSCO', 'NTGR', 'CMCSA', 'S', 'VZ', 'T')
+print("VERIZON") 
+train_neural_network(x, 'T', 'CSCO', 'NTGR', 'CMCSA', 'S', 'VZ')
+print("SPRING") 
+train_neural_network(x, 'VZ', 'T', 'CSCO', 'NTGR', 'CMCSA', 'S')
+print("COMCAST") 
+train_neural_network(x, 'S', 'VZ', 'T', 'CSCO', 'NTGR', 'CMCSA')
+print("NETGEAR") 
+train_neural_network(x, 'CMCSA', 'S', 'VZ', 'T', 'CSCO', 'NTGR')
+print("CISCO") 
+train_neural_network(x, 'NTGR', 'CMCSA', 'S', 'VZ', 'T', 'CSCO')
+
+# Hardware
+print("NVIDIA") 
+train_neural_network(x, 'INTC', 'IBM', 'ASUUY', 'HP', 'AMD', 'NVDA')
+print("AMD") 
+train_neural_network(x, 'NVDA', 'INTC', 'IBM', 'ASUUY', 'HP', 'AMD')
+print("HP") 
+train_neural_network(x, 'AMD', 'NVDA', 'INTC', 'IBM', 'ASUUY', 'HP')
+print("ASUS") 
+train_neural_network(x, 'HP', 'AMD', 'NVDA', 'INTC', 'IBM', 'ASUUY')
+print("IBM") 
+train_neural_network(x, 'ASUUY', 'HP', 'AMD', 'NVDA', 'INTC', 'IBM')
+print("INTEL") 
+train_neural_network(x, 'IBM', 'ASUUY', 'HP', 'AMD', 'NVDA', 'INTC')
+
+

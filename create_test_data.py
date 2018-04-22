@@ -32,13 +32,17 @@ def create_test_sets(arr1, arr2, arr3, arr4, arr5, arr6, test_size=0.4): # test 
 
 	testing_size = int(test_size*len(features))
 
-	features = np.array(features, dtype=object)
-	random.shuffle(features)
-	train_x = list(features[:,0][:-testing_size])
-	train_y = list(features[:,1][:-testing_size])
+	trainFeatures = np.array(features[:-testing_size], dtype=object)
+	testFeatures = np.array(features[-testing_size:], dtype=object)
+	random.shuffle(trainFeatures)
+	random.shuffle(testFeatures)
 
-	test_x = list(features[:,0][-testing_size:])
-	test_y = list(features[:,1][-testing_size:])
+	# random.shuffle(features)
+	train_x = list(trainFeatures[:,0][:])
+	train_y = list(trainFeatures[:,1][:])
+
+	test_x = list(testFeatures[:,0][:])
+	test_y = list(testFeatures[:,1][:])
 
 	return train_x, train_y, test_x, test_y
 
@@ -74,6 +78,7 @@ def get_data_and_create_test_set(str1, str2, str3, str4, str5, str6):
 	# finish pulling data
 
 	batch_size = len(AAPL)
+
 	train_x, train_y, test_x, test_y = create_test_sets(AAPL, MSFT, GOOGL, AMZN, ADBE, ORCL)
 
 	return train_x, train_y, test_x, test_y, batch_size

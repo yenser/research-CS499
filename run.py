@@ -6,7 +6,10 @@ import numpy as np
 from create_test_data import get_data_and_create_run_set
 import libs.bcolors as c
 
-company = 'ORACLE'
+
+
+
+company = 'ORCL'
 run_x, run_y, batch_size = get_data_and_create_run_set('AAPL', 'MSFT', 'GOOGL', 'AMZN', 'ADBE', 'ORCL')
 
 
@@ -75,43 +78,43 @@ def use_neural_network(input_data, hm_epchs=34):
         print("prediction: ",prediction.eval(feed_dict={x:[features]}))
         print("output: ", result)
         if result[0] == 1:
-            print(comp_name,' will go down')
+            print(company,' will go down')
         elif result[0] == 0:
-            print(comp_name,' will go up')
+            print(company,' will go up')
 
         return result[0]
 
 
-print(len(test_x))
+print(len(run_x))
 
 runTotal = 34
 
 testAccuracy = open("dataNew/dataForGraphing/testAccuracy" + company + ".txt", "w")
-testPrediction = open("dataNew/AccuracyOverTime/testPrediction" + company + ".txt", "w")
-testActual = open("dataNew/AccuracyOverTime/ testActual" + company + ".txt", "w")
+testPrediction = open("dataNew/dataForGraphing/testPrediction" + company + ".txt", "w")
+testActual = open("dataNew/dataForGraphing/ testActual" + company + ".txt", "w")
 
 for i in range(runTotal):
     res = use_neural_network(run_x[i], company)
-    testActual.write(res + '\n')
+    testActual.write(str(res) + '\n')
     if (res == 1 and run_y[i] == [1,0]) or (res == 0 and run_y[i] == [0,1]):
         print(c.OKGREEN, 'CORRECT')
         correct += 1
 
-        testPrediction.write(res + '\n')
+        testPrediction.write(str(res) + '\n')
 
     else:
         print(c.FAIL, 'FAIL')
 
         if(res == 1):
-            testPrediction.write(0 + '\n')
+            testPrediction.write(str(0) + '\n')
         else:
-            testPrediction.write(1 + '\n')
+            testPrediction.write(str(1) + '\n')
 
     print(c.WARNING,'TEST [',i+1,'|',runTotal,']')
 
-    accuracy.write(str(correct/runtotal) + "\n")
+    testAccuracy.write(str(correct/runTotal) + "\n")
 
-accuracy.close()
+testAccuracy.close()
 print(c.OKGREEN, correct, ' are Correct\n', c.FAIL, runTotal-correct, ' are Wrong\n', c.HEADER, (correct/runTotal)*100, '% Correctness')
 # use_neural_network([89,2,-100,30,-300], 'ORACLE')
 # use_neural_network([0,0,0,0,0], 'ORACLE')
